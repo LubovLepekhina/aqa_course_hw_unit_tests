@@ -4,3 +4,12 @@
 n + nn + nnn, где n не перемножаются, а конкатенируются
 
 */
+
+let n;
+n = 3;
+
+const twoConcat = String(n) + n;
+const threeConcat = String(n) + n + n;
+
+const result = n + +twoConcat + +threeConcat;
+console.log(result);
