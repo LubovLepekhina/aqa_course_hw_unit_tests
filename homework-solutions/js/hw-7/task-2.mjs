@@ -4,8 +4,14 @@
 */
 
 function isPalindrom(word) {
-  // Ваш код
+  if (typeof(word) !== 'string') return false;
+  
+  const originalWord = word.toLowerCase().split(' ').join('');
+  const reversedWord = word.toLowerCase().split(' ').join('').split('').reverse().join('');
+
+  return originalWord === reversedWord;
 }
+console.log(isPalindrom('Ana voli Milovana'));
 
 /*
  2. findLongestWords()
@@ -15,7 +21,21 @@ function isPalindrom(word) {
 */
 
 function findLongestWords(sentence) {
-  // Ваш код
+  const result = [];
+  if (sentence === '' || typeof(sentence) !== 'string') return result;
+  
+  let maxLength = 0;
+  for (let word of sentence.split(' ')) {
+    if (word.length > maxLength) {
+      result.length = 0;
+      result.push(word);
+      maxLength = word.length;
+    } else if (word.length === maxLength) {
+      result.push(word);
+    }
+  }
+  return result;
 }
+console.log(findLongestWords('The quick brown fox'));
 
 export { isPalindrom, findLongestWords };
