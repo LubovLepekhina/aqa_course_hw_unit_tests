@@ -9,7 +9,22 @@
 */
 
 function digitalRoot(number) {
-  // Ваш код
+  if (number < 10) {
+    return number;
+  } 
+  
+  let arr = number.toString().split('');
+  let sum = 0;
+  for (let val of arr) {
+    sum += +val;
+  }
+
+  if (sum > 9) {
+    return digitalRoot(sum);
+  }
+  return sum;
+
 }
+console.log(digitalRoot(19));
 
 export { digitalRoot };
