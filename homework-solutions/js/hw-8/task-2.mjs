@@ -5,21 +5,16 @@
   Массив должен быть отсортирован по возрастанию количества гласных букв в слове.
  */
 
-const words = [
-  'umbrella',
-  'apple',
-  'ocean',
-  'independent',
-  'education',
-  'elephant',
-  'island',
-  'universe',
-  'environment',
-  'queue',
-];
+const words = ['hello', 'world', 'abc', 'def'];
 
 function sortedByVowels(wordsArr) {
-  // Ваш код
+  if (!wordsArr.length) return [];  
+  return wordsArr.sort((a, b) => countVowels(a) - countVowels(b));
 }
+function countVowels(word) {
+  const vowels = 'aeiou';
+  return [...word.toLowerCase()].filter(letter => vowels.includes(letter)).length;
+}
+console.log(sortedByVowels(words));
 
 export { sortedByVowels };
