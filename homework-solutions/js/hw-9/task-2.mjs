@@ -14,7 +14,8 @@ const characters = [
 ];
 
 function addCharacter(character) {
-  if (!('name' in character) || !('age' in character)) throw new Error('Invalid input');
+  const {name, age} = character;
+  if (!name || !age || typeof(name) !== 'string' || typeof(age) !== 'number') throw new Error('Invalid input');
   characters.push(character);
   return characters;
 }
