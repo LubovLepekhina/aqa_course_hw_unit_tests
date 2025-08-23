@@ -14,23 +14,41 @@ const characters = [
 ];
 
 function addCharacter(character) {
-  // Ваш код
+  const {name, age} = character;
+  if (!name || !age || typeof(name) !== 'string' || typeof(age) !== 'number') throw new Error('Invalid input');
+  characters.push(character);
+  return characters;
 }
+console.log(addCharacter({name: 'Ann', age: 30}));
+
 
 function getCharacter(name) {
-  // Ваш код
+  return characters.find(person => person.name === name);
 }
+console.log(getCharacter('Fred'));
+
 
 function getCharactersByAge(minAge) {
-  // Ваш код
+  if (typeof(minAge) !== 'number') throw new Error('Invalid input');
+  return characters.filter(person => person.age >= minAge);
 }
+console.log(getCharactersByAge(36));
+
 
 function updateCharacter(name, newCharacter) {
-  // Ваш код
+  const person = getCharacter(name);
+  if (!person) throw new Error('Name is not found');
+  return Object.assign(person, newCharacter);
 }
+console.log(updateCharacter('Fred', {name: 'Freddy', age: 40}));
+
 
 function removeCharacter(name) {
-  // Ваш код
+  let index = characters.findIndex(obj => obj.name === name);
+  if (index === -1) throw new Error('Name is not found');
+  characters.splice(index, 1);
+  return characters;
 }
+console.log(removeCharacter('Jack'));
 
 export { characters, addCharacter, updateCharacter, getCharacter, getCharactersByAge, removeCharacter };
