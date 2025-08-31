@@ -30,7 +30,7 @@ let anotherQa = {
 };
 
 // Используйте bind с greetingWord "Hello"
-let bindResult = qa.getInfo.bind(anotherQa)('Hello');;
+let bindResult = qa.getInfo.bind(anotherQa)('Hello');
 console.log(bindResult);
 
 // Используйте call с greetingWord "Hi"
