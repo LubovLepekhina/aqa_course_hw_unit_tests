@@ -89,3 +89,57 @@ const resp = new JsonPlaceholderApi();
 // resp.getPhotos(5).then(res => console.log(res));
 resp.getAllUserInfo(5).then(res => console.log(res));
 
+
+// Option 2:
+
+class JsonPlaceholderApi1 {
+    #url = 'https://jsonplaceholder.typicode.com';
+    #endpoints = {
+        users: '/users',
+        albums: '/albums',
+        photos: '/photos'
+    }
+
+    async getUserInfo(userId) {
+      try {
+        const [users, albums, photos] = await Promise.all([
+          this.getUserInfoByEndpoint(this.#endpoints.users),
+          this.getUserInfoByEndpoint(this.#endpoints.albums),
+          this.getUserInfoByEndpoint(this.#endpoints.photos)
+        ]);
+
+        const user = users.find(user => user.id === userId);
+        if (!user) throw new Error('User not found');
+
+        const userAlbums = albums.filter(alb => alb.userId === userId);
+        if (!userAlbums.length) throw new Error('Albums not found');
+
+        const albumResult = userAlbums.map(alb => {
+          const photoCount = photos.filter(photo => photo.albumId === alb.id).length;
+          return `${alb.title} (${photoCount} photos)`;
+        }).join('\n');
+
+        return {
+            name: user.name,
+            email: user.email,
+            phone: user.phone,
+            company: user.company.name,
+            albums: albumResult 
+        };
+      } catch (err) {
+        console.log(err.message);
+      }
+    } 
+
+    async getUserInfoByEndpoint(endpoint) {
+      try {
+        const response = await fetch(this.#url + endpoint);
+        if (response.status !== 200) throw new Error(`Request to ${endpoint} failed: ${response.status}`);
+        return await response.json();
+      } catch(err) {
+        console.error(err.message);
+      }
+    }
+}
+const userInfo = new JsonPlaceholderApi1();
+userInfo.getUserInfo(5).then(res => console.log(res));
