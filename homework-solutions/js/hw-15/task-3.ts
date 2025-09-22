@@ -71,6 +71,9 @@ class Enterprise implements IEnterprise {
         return foundDept;
     }
 
+    public hasDepartment(idOrName: IDepartment['id'] | IDepartment['name']): boolean {
+        return this.departments.some(dept => dept.id === idOrName || dept.name === idOrName);
+    }
 }
 
 class Department implements IDepartment {
@@ -78,6 +81,11 @@ class Department implements IDepartment {
 
     public getEmployeesCount(): number {
         return this.employees_count;
+    }
+
+    public addEmployees(numberOfEmployees: number): void {
+        if (numberOfEmployees <= 0) throw new Error ('Number of employees must be greater than 0');
+        this.employees_count += numberOfEmployees;
     }
 
     public addEmployee(): void {
@@ -117,9 +125,9 @@ class EnterpriseStorage{
     }
 
     public getEnterpriseByDepartmentIdOrName(idOrName: IEnterprise['id'] | IEnterprise['name']): Enterprise {
-        const found = this.enterprises.find(ent => ent.departments.find(dept => dept.id === idOrName || dept.name === idOrName));
-        if (!found) throw new Error(`Enterprise that contains department with id ${typeof idOrName === 'number' ? idOrName : ''} or name ${typeof idOrName === 'string' ? idOrName : ''} doesn't exist`);
-        return found;
+        const foundEnt = this.enterprises.find(ent => ent.hasDepartment(idOrName));
+        if (!foundEnt) throw new Error(`Enterprise that contains department with ${typeof idOrName === 'number' ? 'id' : 'name'} ${idOrName} doesn't exist`);
+        return foundEnt;
     }
 
     public editEnterprise(id: IEnterprise['id'], newName: IEnterprise['name']): void {
